@@ -14,64 +14,118 @@ function mulberry32(state) {
 }
 
 const LIMIT = 25;
+const WORDS = ["AFRICA", "AGENT", "AIR", "ALIEN", "ALPS", "AMAZON", "AMBULANCE",
+"AMERICA", "ANGEL", "ANTARCTICA", "APPLE", "ARM", "ATLANTIS", "AUSTRALIA", "AZTEC",
+"BACK", "BALL", "BAND", "BANK", "BAR", "BARK", "BAT", "BATTERY", "BEACH", "BEAR",
+"BEAT", "BED", "BEIJING", "BELL", "BELT", "BERLIN", "BERMUDA", "BERRY", "BILL", "BLOCK",
+"BOARD", "BOLT", "BOMB", "BOND", "BOOM", "BOOT", "BOTTLE", "BOW", "BOX", "BRIDGE",
+"BRUSH", "BUCK", "BUFFALO", "BUG", "BUGLE", "BUTTON", "CALF", "CANADA", "CAP", "CAPITAL",
+"CAR", "CARD", "CARROT", "CASINO", "CAST", "CAT", "CELL", "CENTAUR", "CENTER", "CHAIR",
+"CHANGE", "CHARGE", "CHECK", "CHEST", "CHICK", "CHINA", "CHOCOLATE", "CHURCH", "CIRCLE",
+"CLIFF", "CLOAK", "CLUB", "CODE", "COLD", "COMIC", "COMPOUND", "CONCERT", "CONDUCTOR",
+"CONTRACT", "COOK", "COPPER", "COTTON", "COURT", "COVER", "CRANE", "CRASH", "CRICKET",
+"CROSS", "CROWN", "CYCLE", "CZECH", "DANCE", "DATE", "DAY", "DEATH", "DECK", "DEGREE",
+"DIAMOND", "DICE", "DINOSAUR", "DISEASE", "DOCTOR", "DOG", "DRAFT", "DRAGON", "DRESS",
+"DRILL", "DROP", "DUCK", "DWARF", "EAGLE", "EGYPT", "EMBASSY", "ENGINE", "ENGLAND",
+"EUROPE", "EYE", "FACE", "FAIR", "FALL", "FAN", "FENCE", "FIELD", "FIGHTER", "FIGURE",
+"FILE", "FILM", "FIRE", "FISH", "FLUTE", "FLY", "FOOT", "FORCE", "FOREST", "FORK",
+"FRANCE", "GAME", "GAS", "GENIUS", "GERMANY", "GHOST", "GIANT", "GLASS", "GLOVE", "GOLD",
+"GRACE", "GRASS", "GREECE", "GREEN", "GROUND", "HAM", "HAND", "HAWK", "HEAD", "HEART",
+"HELICOPTER", "HIMALAYAS", "HOLE", "HOLLYWOOD", "HONEY", "HOOD", "HOOK", "HORN", "HORSE",
+"HORSESHOE", "HOSPITAL", "HOTEL", "ICE", "ICE CREAM", "INDIA", "IRON", "IVORY", "JACK",
+"JAM", "JET", "JUPITER", "KANGAROO", "KETCHUP", "KEY", "KID", "KING", "KIWI", "KNIFE",
+"KNIGHT", "LAB", "LAP", "LASER", "LAWYER", "LEAD", "LEMON", "LEPRECHAUN", "LIFE", "LIGHT",
+"LIMOUSINE", "LINE", "LINK", "LION", "LITTER", "LOCH NESS", "LOCK", "LOG", "LONDON",
+"LUCK", "MAIL", "MAMMOTH", "MAPLE", "MARBLE", "MARCH", "MASS", "MATCH", "MERCURY",
+"MEXICO", "MICROSCOPE", "MILLIONAIRE", "MINE", "MINT", "MISSILE", "MODEL", "MOLE", "MOON",
+"MOSCOW", "MOUNT", "MOUSE", "MOUTH", "MUG", "NAIL", "NEEDLE", "NET", "NEW YORK", "NIGHT",
+"NINJA", "NOTE", "NOVEL", "NURSE", "NUT", "OCTOPUS", "OIL", "OLIVE", "OLYMPUS", "OPERA",
+"ORANGE", "ORGAN", "PALM", "PAN", "PANTS", "PAPER", "PARACHUTE", "PARK", "PART", "PASS",
+"PASTE", "PENGUIN", "PHOENIX", "PIANO", "PIE", "PILOT", "PIN", "PIPE", "PIRATE", "PISTOL",
+"PIT", "PITCH", "PLANE", "PLASTIC", "PLATE", "PLATYPUS", "PLAY", "PLOT", "POINT",
+"POISON", "POLE", "POLICE", "POOL", "PORT", "POST", "POUND", "PRESS", "PRINCESS",
+"PUMPKIN", "PUPIL", "PYRAMID", "QUEEN", "RABBIT", "RACKET", "RAY", "REVOLUTION", "RING",
+"ROBIN", "ROBOT", "ROCK", "ROME", "ROOT", "ROSE", "ROULETTE", "ROUND", "ROW", "RULER",
+"SATELLITE", "SATURN", "SCALE", "SCHOOL", "SCIENTIST", "SCORPION", "SCREEN",
+"SCUBA DIVER", "SEAL", "SERVER", "SHADOW", "SHAKESPEARE", "SHARK", "SHIP", "SHOE", "SHOP",
+"SHOT", "SINK", "SKYSCRAPER", "SLIP", "SLUG", "SMUGGLER", "SNOW", "SNOWMAN", "SOCK",
+"SOLDIER", "SOUL", "SOUND", "SPACE", "SPELL", "SPIDER", "SPIKE", "SPINE", "SPOT",
+"SPRING", "SPY", "SQUARE", "STADIUM", "STAFF", "STAR", "STATE", "STICK", "STOCK", "STRAW",
+"STREAM", "STRIKE", "STRING", "SUB", "SUIT", "SUPERHERO", "SWING", "SWITCH", "TABLE",
+"TABLET", "TAG", "TAIL", "TAP", "TEACHER", "TELESCOPE", "TEMPLE", "THEATER", "THIEF",
+"THUMB", "TICK", "TIE", "TIME", "TOKYO", "TOOTH", "TORCH", "TOWER", "TRACK", "TRAIN",
+"TRIANGLE", "TRIP", "TRUNK", "TUBE", "TURKEY", "UNDERTAKER", "UNICORN", "VACUUM", "VAN",
+"VET", "WAKE", "WALL", "WAR", "WASHER", "WASHINGTON", "WATCH", "WATER", "WAVE", "WEB",
+"WELL", "WHALE", "WHIP", "WIND", "WITCH", "WORM", "YARD"];
 
-function loadAllNouns(callback) {
-    var parsed;
-    var url = window.location.protocol + "//" + window.location.host  + window.location.pathname + "assets/nouns.txt";
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", url);
-    xhr.onreadystatechange = function() {
-      if (xhr.readyState === 4) {
-        if (xhr.status === 0 || xhr.status == 200) {
-          parsed = xhr.responseText.split("\n");
-        }
-        else {
-          parsed = ["ERROR"];
-        }
-        callback(parsed);
-      }
-    }
-    xhr.send();
+function shuffle(prng, arr) {
+  var len = arr.length;
+  for (var i = 0; i < len; i++) {
+    var rand_index = Math.floor((i + 1) * prng());
+    var tmp = arr[rand_index];
+    arr[rand_index] = arr[i];
+    arr[i] = tmp;
+  }
+  return arr;
 }
-function loadNouns(seed, callback) {
-  loadAllNouns(function(nounlist) {
-    var prng = mulberry32(seed);
-    // shuffle + slice to guarantee non-repetition
-    var len = nounlist.length;
-    for (var i = 0; i < len; i++) {
-      var rand_index = Math.floor((i + 1) * prng());
-      var tmp = nounlist[rand_index];
-      nounlist[rand_index] = nounlist[i];
-      nounlist[i] = tmp;
-    }
-    var result = nounlist.slice(0, LIMIT);
-    console.log("result: " + result.toString());
-    callback(result);
-  });
+
+function loadWords(prng) {
+  // shuffle + slice to guarantee non-repetition
+  var wordlist = shuffle(prng, WORDS.slice(0));
+  return wordlist.slice(0, LIMIT);
 }
-function populatePage() {
+
+function determineFirstPlayer(prng) {
+  if (prng() < 0.5) {
+    return "blue";
+  } else {
+    return "red";
+  }
+}
+
+function wordDistribution(prng) {
+  var word_indices = shuffle(prng, [...Array(25).keys()]);
+  return [word_indices.slice(0, 8), word_indices.slice(8, 17), word_indices[17]];
+}
+
+function getRNG() {
   var default_seed = Math.floor(Math.random() * 10000);
   var params = (new URL(window.location)).searchParams;
-  var seed = params.get("gameID") || default_seed;
-
-  function renderCallback(wordlist) {
-    var target = document.getElementById("wordList");
-    var table = document.createElement("TABLE");
-    for (var i = 0; i < 5; i++) {
-      var tr = document.createElement("TR");
-      for (var j = 0; j < 5; j++) {
-        var idx = 5 * i + j;
-        var td = document.createElement("TD");
-        td.appendChild(document.createTextNode(wordlist[idx]));
-        tr.appendChild(td);
-      }
-      table.appendChild(tr);
-    }
-    target.appendChild(table);
-  }
-
-  loadNouns(seed, renderCallback);
+  return mulberry32(params.get("gameID") || default_seed);
 }
+
 document.addEventListener('DOMContentLoaded', function() {
-  populatePage();
+  var prng = getRNG();
+  var wordlist = loadWords(prng);
+  var dist = wordDistribution(prng);
+
+  if (determineFirstPlayer(prng) == "red") {
+    var bluewords = dist[0], redwords = dist[1];
+  } else {
+    var redwords = dist[0], bluewords = dist[1];
+  }
+  var poisonword = dist[2];
+
+  var target = document.getElementById("wordList");
+  var table = document.createElement("TABLE");
+  for (var i = 0; i < 5; i++) {
+    var tr = document.createElement("TR");
+    for (var j = 0; j < 5; j++) {
+      var idx = 5 * i + j;
+      var td = document.createElement("TD");
+      td.appendChild(document.createTextNode(wordlist[idx]));
+      if (idx == poisonword) {
+        td.classList.add("poisonword")
+      } else if (redwords.includes(idx)) {
+        td.classList.add("redword")
+      } else if (bluewords.includes(idx)) {
+        td.classList.add("blueword")
+      } else {
+        td.classList.add("neutralword")
+      }
+      tr.appendChild(td);
+    }
+    table.appendChild(tr);
+  }
+  target.appendChild(table);
 });

@@ -6,9 +6,12 @@ body {
     line-height: 1.5;
     font-family: 'Helvetica Neue', Helvetica, Arial, serif;
     font-weight: 400;
+    color: #282828;
+    background: #f9f5d7;
 }
 table {
     font-size: 28px;
+    font-weight: 700;
     table-layout: fixed;
     border-collapse: collapse;
     border: 3px solid gray;
@@ -17,4 +20,17 @@ td {
     text-align: center;
     padding: 1.25em 0.75em;
     border-style: dotted;
+}
+td.redword {
+    background: #cc241d;
+}
+td.blueword {
+    background: #458588;
+}
+td.neutralword {
+    background: #d79921;
+}
+td.poisonword {
+    background: #282828;
+    color: #ebdbb2;
 }
