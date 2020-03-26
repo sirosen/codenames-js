@@ -5,10 +5,11 @@
 // CC License 1.0, Copyright Tommy Ettinger, 2017
 function mulberry32(state) {
   return function() {
-    var z = state += 0x6D2B79F5;
+    state = state + 0x6D2B79F5 | 0;
+    var z = state;
     z = Math.imul(z ^ (z >>> 15), z | 1);
-    z ^= z + Math.imul(z ^ (z >>> 7), z | 61);
-    return ((z ^ z >>> 14) >>> 0);
+    z = z ^ (z + Math.imul(z ^ (z >>> 7), z | 61));
+    return ((z ^ z >>> 14) >>> 0) / 4294967296;
   }
 }
 
@@ -16,12 +17,12 @@ const LIMIT = 25;
 
 function loadAllNouns(callback) {
     var parsed;
-    var url = window.location.protocol + "//" + window.location.host  + window.location.pathname + "/assets/nouns.txt";
+    var url = window.location.protocol + "//" + window.location.host  + window.location.pathname + "assets/nouns.txt";
     var xhr = new XMLHttpRequest();
-    xhr.open("GET", url, true);
+    xhr.open("GET", url);
     xhr.onreadystatechange = function() {
-      if (xhr.readyState === XMLHttpRequest.DONE) {
-        if (xhr.status === 0 || (xhr.status >= 200 && xhr.status < 400)) {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 0 || xhr.status == 200) {
           parsed = xhr.responseText.split("\n");
         }
         else {
@@ -35,16 +36,17 @@ function loadAllNouns(callback) {
 function loadNouns(seed, callback) {
   loadAllNouns(function(nounlist) {
     var prng = mulberry32(seed);
-    // Fisher-Yates shuffle + slice to guarantee non-repetition
-    var arr = nounlist.slice(0);
+    // shuffle + slice to guarantee non-repetition
     var len = nounlist.length;
-    for (var i = 0; i < LIMIT; i++) {
-      var rand_index = ((i + 1) * prng()) % len;
-      var tmp = arr[rand_index];
-      arr[rand_index] = arr[i];
-      arr[i] = tmp;
+    for (var i = 0; i < len; i++) {
+      var rand_index = Math.floor((i + 1) * prng());
+      var tmp = nounlist[rand_index];
+      nounlist[rand_index] = nounlist[i];
+      nounlist[i] = tmp;
     }
-    callback(arr.slice(0, LIMIT));
+    var result = nounlist.slice(0, LIMIT);
+    console.log("result: " + result.toString());
+    callback(result);
   });
 }
 function populatePage() {
@@ -58,8 +60,9 @@ function populatePage() {
     for (var i = 0; i < 5; i++) {
       var tr = document.createElement("TR");
       for (var j = 0; j < 5; j++) {
+        var idx = 5 * i + j;
         var td = document.createElement("TD");
-        td.appendChild(document.createTextNode(wordlist[i + j*(i+1)]));
+        td.appendChild(document.createTextNode(wordlist[idx]));
         tr.appendChild(td);
       }
       table.appendChild(tr);
