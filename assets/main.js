@@ -19,7 +19,7 @@ function loadAllNouns(callback) {
     var url = window.location.protocol + "//" + window.location.host  + window.location.pathname + "/assets/nouns.txt";
     var xhr = new XMLHttpRequest();
     xhr.open("GET", url, true);
-    req.onreadystatechange = function() {
+    xhr.onreadystatechange = function() {
       if (xhr.readyState === XMLHttpRequest.DONE) {
         if (xhr.status === 0 || (xhr.status >= 200 && xhr.status < 400)) {
           parsed = xhr.responseText.split("\n");
@@ -27,8 +27,8 @@ function loadAllNouns(callback) {
         else {
           parsed = ["ERROR"];
         }
+        callback(parsed);
       }
-      callback(parsed);
     }
     xhr.send();
 }
@@ -40,11 +40,11 @@ function loadNouns(seed, callback) {
     var len = nounlist.length;
     for (var i = 0; i < LIMIT; i++) {
       var rand_index = ((i + 1) * prng()) % len;
-      var tmp = shuffled[index];
-      shuffled[index] = shuffled[i];
-      shuffled[i] = tmp;
+      var tmp = arr[rand_index];
+      arr[rand_index] = arr[i];
+      arr[i] = tmp;
     }
-    callback(shuffled.slice(0, LIMIT));
+    callback(arr.slice(0, LIMIT));
   });
 }
 function populatePage() {
@@ -53,16 +53,18 @@ function populatePage() {
   var seed = params.get("gameID") || default_seed;
 
   function renderCallback(wordlist) {
-    var wordlist_elem = document.getElementById("#wordlist");
+    var target = document.getElementById("wordList");
     var table = document.createElement("TABLE");
-    for (var i = 0; i < LIMIT; i++) {
+    for (var i = 0; i < 5; i++) {
       var tr = document.createElement("TR");
-      var td = document.createElement("TD");
-      td.appendChild(document.createTextNode(wordlist[i]));
-      tr.appendChild(td);
+      for (var j = 0; j < 5; j++) {
+        var td = document.createElement("TD");
+        td.appendChild(document.createTextNode(wordlist[i + j*(i+1)]));
+        tr.appendChild(td);
+      }
       table.appendChild(tr);
     }
-    wordlist_elem.appendChild(table);
+    target.appendChild(table);
   }
 
   loadNouns(seed, renderCallback);

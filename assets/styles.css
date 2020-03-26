@@ -7,3 +7,14 @@ body {
     font-family: 'Helvetica Neue', Helvetica, Arial, serif;
     font-weight: 400;
 }
+table {
+    font-size: 28px;
+    table-layout: fixed;
+    border-collapse: collapse;
+    border: 3px solid gray;
+}
+td {
+    text-align: center;
+    padding: 1.25em 0.75em;
+    border-style: dotted;
+}
