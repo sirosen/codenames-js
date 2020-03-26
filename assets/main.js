@@ -16,8 +16,9 @@ const LIMIT = 25;
 
 function loadAllNouns(callback) {
     var parsed;
+    var url = window.location.protocol + "//" + window.location.host  + window.location.pathname + "/assets/nouns.txt";
     var xhr = new XMLHttpRequest();
-    xhr.open("GET", "/assets/nouns.txt", true);
+    xhr.open("GET", url, true);
     req.onreadystatechange = function() {
       if (xhr.readyState === XMLHttpRequest.DONE) {
         if (xhr.status === 0 || (xhr.status >= 200 && xhr.status < 400)) {
