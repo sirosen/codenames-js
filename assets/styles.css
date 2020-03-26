@@ -9,6 +9,9 @@ body {
     color: #282828;
     background: #f9f5d7;
 }
+hr {
+  border-color: #d79921;
+}
 table {
     font-size: 28px;
     font-weight: 700;
@@ -16,21 +19,21 @@ table {
     border-collapse: collapse;
     border: 3px solid gray;
 }
-td {
+td.gameword {
     text-align: center;
     padding: 1.25em 0.75em;
     border-style: dotted;
 }
-td.redword {
+td.redword.activated {
     background: #cc241d;
 }
-td.blueword {
+td.blueword.activated {
     background: #458588;
 }
-td.neutralword {
+td.neutralword.activated {
     background: #d79921;
 }
-td.poisonword {
+td.poisonword.activated {
     background: #282828;
     color: #ebdbb2;
 }

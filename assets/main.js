@@ -5,10 +5,11 @@
 // CC License 1.0, Copyright Tommy Ettinger, 2017
 function mulberry32(state) {
   return function() {
+    state |= 0;
     state = state + 0x6D2B79F5 | 0;
     var z = state;
     z = Math.imul(z ^ (z >>> 15), z | 1);
-    z = z ^ (z + Math.imul(z ^ (z >>> 7), z | 61));
+    z = z + (z ^ Math.imul(z ^ (z >>> 7), z | 61));
     return ((z ^ z >>> 14) >>> 0) / 4294967296;
   }
 }
@@ -88,18 +89,27 @@ function wordDistribution(prng) {
   return [word_indices.slice(0, 8), word_indices.slice(8, 17), word_indices[17]];
 }
 
-function getRNG() {
+function getSeed() {
   var default_seed = Math.floor(Math.random() * 10000);
   var params = (new URL(window.location)).searchParams;
-  return mulberry32(params.get("gameID") || default_seed);
+  return params.get("gameID") || default_seed;
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-  var prng = getRNG();
+function clickActivates(node) {
+  node.addEventListener("click", function(evt) {
+    evt.stopPropagation();
+
+    if (window.confirm("Are you sure you want to select " + node.innerHTML + "?")) {
+      node.classList.add("activated");
+    }
+  });
+}
+
+function renderBoard(prng, firstPlayer) {
   var wordlist = loadWords(prng);
   var dist = wordDistribution(prng);
 
-  if (determineFirstPlayer(prng) == "red") {
+  if (firstPlayer == "red") {
     var bluewords = dist[0], redwords = dist[1];
   } else {
     var redwords = dist[0], bluewords = dist[1];
@@ -114,6 +124,7 @@ document.addEventListener('DOMContentLoaded', function() {
       var idx = 5 * i + j;
       var td = document.createElement("TD");
       td.appendChild(document.createTextNode(wordlist[idx]));
+      td.classList.add("gameword");
       if (idx == poisonword) {
         td.classList.add("poisonword")
       } else if (redwords.includes(idx)) {
@@ -123,9 +134,37 @@ document.addEventListener('DOMContentLoaded', function() {
       } else {
         td.classList.add("neutralword")
       }
+      clickActivates(td);
       tr.appendChild(td);
     }
     table.appendChild(tr);
   }
   target.appendChild(table);
+}
+
+function renderGameLink(gameID) {
+  var href = window.location.protocol + '//' + window.location.host + window.location.pathname + '?gameID=' + gameID.toString();
+
+  var target = document.getElementById("gameLink");
+  target.href = href;
+
+  target = document.getElementById("gameLinkRaw");
+  target.appendChild(document.createTextNode(href));
+}
+
+
+document.addEventListener('DOMContentLoaded', function() {
+  var seed = getSeed();
+  var prng = mulberry32(seed);
+  var firstPlayer = determineFirstPlayer(prng);
+  renderBoard(prng, firstPlayer);
+  renderGameLink(seed);
+
+  // setup Spymaster Button
+  document.getElementById("spymasterButton").addEventListener("click", function(evt) {
+    evt.stopPropagation();
+    document.querySelectorAll(".gameword").forEach(function(elem) {
+      elem.classList.add("activated");
+    });
+  });
 });
