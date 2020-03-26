@@ -33,7 +33,7 @@ function loadAllNouns(callback) {
     xhr.send();
 }
 function loadNouns(seed, callback) {
-  loadNouns(function(nounlist) {
+  loadAllNouns(function(nounlist) {
     var prng = mulberry32(seed);
     // Fisher-Yates shuffle + slice to guarantee non-repetition
     var arr = nounlist.slice(0);
