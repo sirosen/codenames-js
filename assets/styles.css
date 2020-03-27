@@ -9,24 +9,6 @@ body {
   color: #282828;
   background: #f9f5d7;
 }
-.remaining-indicator {
-  display: inline-block;
-  padding: 0.5em;
-  margin: 0;
-  border-radius: 5px;
-  font-weight: 700;
-}
-.remaining-indicator div {
-  display: inline-block;
-}
-.remaining-indicator.blue-indicator {
-  color: #07668;
-  background-color: #bdae93;
-}
-.remaining-indicator.red-indicator {
-  color: #9d0006;
-  background-color: #bdae93;
-}
 hr {
   border-color: #d79921;
 }
@@ -41,6 +23,25 @@ td {
   border: 2px dashed #3c3836;
 }
 
+#spymasterDetails { display: inline-block; }
+#firstPlayerIndicator {
+  display: inline-block;
+  padding: 0.5em;
+  font-weight: 700;
+  font-size: 18px;
+}
+.remaining-indicator {
+  display: inline-block;
+  padding: 0.5em;
+  margin: 0;
+  border-radius: 8px 3px 8px 3px;
+  font-weight: 700;
+  background-color: #ebdbb2;
+}
+.remaining-indicator div { display: inline-block; }
+.remaining-indicator.blue-indicator { color: #076678; }
+.remaining-indicator.red-indicator { color: #9d0006; }
+
 .gameword {
   width: 20%;
   transition: background 0.35s ease-in;
@@ -49,7 +50,7 @@ td {
   font-weight: 700;
 }
 /* base colors */
-.gameword.activated { color: rgba(29,32,33,0.4); }
+.gameword.activated { color: rgba(29,32,33,0.4); border: 3px solid gray; }
 .redword.activated, .redword.spymaster { background: #cc241d; }
 .blueword.activated, .blueword.spymaster { background: #458588; }
 .neutralword.activated, .neutralword.spymaster { background: #d79921; }
