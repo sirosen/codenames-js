@@ -89,10 +89,10 @@ function wordDistribution(prng) {
   return [word_indices.slice(0, 8), word_indices.slice(8, 17), word_indices[17]];
 }
 
+function newSeed() { return Math.floor(Math.random() * 10000); }
 function getSeed() {
-  var default_seed = Math.floor(Math.random() * 10000);
   var params = (new URL(window.location)).searchParams;
-  return params.get("gameID") || default_seed;
+  return params.get("gameID") || newSeed();
 }
 
 function updateRemainingIndicators() {
@@ -131,6 +131,11 @@ function renderBoard(prng, firstPlayer) {
   var poisonword = dist[2];
 
   var target = document.getElementById("wordList");
+  // clear all children
+  while (target.firstChild) {
+    target.removeChild(target.firstChild);
+  }
+  // render the board
   var table = document.createElement("TABLE");
   for (var i = 0; i < 5; i++) {
     var tr = document.createElement("TR");
@@ -163,9 +168,12 @@ function renderGameLink(gameID) {
   target.href = href;
 
   target = document.getElementById("gameLinkRaw");
-  target.appendChild(document.createTextNode(href));
+  target.innerHTML = href;
 
-  history.pushState({"gameID": gameID}, "Codenames", href);
+  var params = (new URL(window.location)).searchParams;
+  if (params.get("gameID") != gameID) {
+    history.pushState({"gameID": gameID}, "Codenames", href);
+  }
 }
 
 function renderFirstPlayerIndicator(firstPlayer) {
@@ -177,13 +185,17 @@ function renderFirstPlayerIndicator(firstPlayer) {
   }
 }
 
-
-document.addEventListener('DOMContentLoaded', function() {
-  var seed = getSeed();
+function renderAll(seed) {
   var prng = mulberry32(seed);
   var firstPlayer = determineFirstPlayer(prng);
   renderBoard(prng, firstPlayer);
   renderGameLink(seed);
+  renderFirstPlayerIndicator(firstPlayer);
+  updateRemainingIndicators();
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  renderAll(getSeed());
 
   // setup Spymaster Button
   document.getElementById("spymasterButton").addEventListener("click", function(evt) {
@@ -192,7 +204,13 @@ document.addEventListener('DOMContentLoaded', function() {
       elem.classList.add("spymaster");
     });
   });
-
-  renderFirstPlayerIndicator(firstPlayer);
-  updateRemainingIndicators();
+  // setup New Game Button
+  document.getElementById("newGameButton").addEventListener("click", function(evt) {
+    evt.stopPropagation();
+    renderAll(newSeed());
+  });
+  // setup popstate handler
+  window.onpopstate = function(evt) {
+    renderAll(evt.state.gameID);
+  };
 });
