@@ -164,6 +164,8 @@ function renderGameLink(gameID) {
 
   target = document.getElementById("gameLinkRaw");
   target.appendChild(document.createTextNode(href));
+
+  history.pushState({"gameID": gameID}, "Codenames", href);
 }
 
 function renderFirstPlayerIndicator(firstPlayer) {

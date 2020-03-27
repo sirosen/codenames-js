@@ -2,7 +2,7 @@ header {
   font-family: 'Helvetica Neue', Helvetica, Arial, serif;
 }
 body {
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.5;
   font-family: 'Helvetica Neue', Helvetica, Arial, serif;
   font-weight: 400;
@@ -31,45 +31,34 @@ hr {
   border-color: #d79921;
 }
 table {
-  font-size: 28px;
-  font-weight: 700;
   table-layout: fixed;
   border-collapse: collapse;
   border: 3px solid gray;
 }
 td {
   text-align: center;
-  padding: 0.5em 0.25em;
-  border-style: dotted;
+  padding: 20px 10px;
+  border: 2px dashed #3c3836;
 }
-.redword.activated,
-.redword.spymaster {
-  background: #cc241d;
+
+.gameword {
+  width: 20%;
+  transition: background 0.35s ease-in;
+  transition: 0.35s ease-in;
+  font-size: 22px;
+  font-weight: 700;
 }
-.blueword.activated,
-.blueword.spymaster {
-  background: #458588;
-}
-.neutralword.activated,
-.neutralword.spymaster {
-  background: #d79921;
-}
-.poisonword.activated,
-.poisonword.spymaster {
-  background: #282828;
-  color: #ebdbb2;
-}
-.redword.activated.spymaster {
-  background: linear-gradient(30deg, #cc241d 70%, #7c6f64 30%);
-}
-.blueword.activated.spymaster {
-  background: linear-gradient(30deg, #458588 70%, #7c6f64 30%);
-}
-.neutralword.activated.spymaster {
-  background: linear-gradient(30deg, #d79921 70%, #7c6f64 30%);
-}
-.poisonword.activated.spymaster {
-  background: linear-gradient(30deg, #282828 50%, #504945 50%);
+/* base colors */
+.gameword.activated { color: rgba(29,32,33,0.4); }
+.redword.activated, .redword.spymaster { background: #cc241d; }
+.blueword.activated, .blueword.spymaster { background: #458588; }
+.neutralword.activated, .neutralword.spymaster { background: #d79921; }
+.poisonword.activated, .poisonword.spymaster { background: #282828; }
+.poisonword.activated, .poisonword.spymaster { color: #f9f5d7; border-color: #3c3836; }
+/* spymaster activated colors */
+.gameword.activated.spymaster { opacity: 0.8; }
+.gameword.poisonword.activated.spymaster {
+  background: linear-gradient(30deg, #282828 20%, #504945);
 }
 
 span.dot {
