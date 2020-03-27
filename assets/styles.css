@@ -1,39 +1,86 @@
 header {
-    font-family: 'Helvetica Neue', Helvetica, Arial, serif;
+  font-family: 'Helvetica Neue', Helvetica, Arial, serif;
 }
 body {
-    font-size: 15px;
-    line-height: 1.5;
-    font-family: 'Helvetica Neue', Helvetica, Arial, serif;
-    font-weight: 400;
-    color: #282828;
-    background: #f9f5d7;
+  font-size: 15px;
+  line-height: 1.5;
+  font-family: 'Helvetica Neue', Helvetica, Arial, serif;
+  font-weight: 400;
+  color: #282828;
+  background: #f9f5d7;
+}
+.remaining-indicator {
+  display: inline-block;
+  padding: 0.5em;
+  margin: 0;
+  border-radius: 5px;
+  font-weight: 700;
+}
+.remaining-indicator div {
+  display: inline-block;
+}
+.remaining-indicator.blue-indicator {
+  color: #07668;
+  background-color: #bdae93;
+}
+.remaining-indicator.red-indicator {
+  color: #9d0006;
+  background-color: #bdae93;
 }
 hr {
   border-color: #d79921;
 }
 table {
-    font-size: 28px;
-    font-weight: 700;
-    table-layout: fixed;
-    border-collapse: collapse;
-    border: 3px solid gray;
+  font-size: 28px;
+  font-weight: 700;
+  table-layout: fixed;
+  border-collapse: collapse;
+  border: 3px solid gray;
 }
-td.gameword {
-    text-align: center;
-    padding: 1.25em 0.75em;
-    border-style: dotted;
+td {
+  text-align: center;
+  padding: 0.5em 0.25em;
+  border-style: dotted;
 }
-td.redword.activated {
-    background: #cc241d;
+.redword.activated,
+.redword.spymaster {
+  background: #cc241d;
 }
-td.blueword.activated {
-    background: #458588;
+.blueword.activated,
+.blueword.spymaster {
+  background: #458588;
 }
-td.neutralword.activated {
-    background: #d79921;
+.neutralword.activated,
+.neutralword.spymaster {
+  background: #d79921;
 }
-td.poisonword.activated {
-    background: #282828;
-    color: #ebdbb2;
+.poisonword.activated,
+.poisonword.spymaster {
+  background: #282828;
+  color: #ebdbb2;
+}
+.redword.activated.spymaster {
+  background: linear-gradient(30deg, #cc241d 70%, #7c6f64 30%);
+}
+.blueword.activated.spymaster {
+  background: linear-gradient(30deg, #458588 70%, #7c6f64 30%);
+}
+.neutralword.activated.spymaster {
+  background: linear-gradient(30deg, #d79921 70%, #7c6f64 30%);
+}
+.poisonword.activated.spymaster {
+  background: linear-gradient(30deg, #282828 50%, #504945 50%);
+}
+
+span.dot {
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+  display: inline-block;
+}
+span.dot.red-dot {
+  background-color: #cc241d;
+}
+span.dot.blue-dot {
+  background-color: #458588;
 }

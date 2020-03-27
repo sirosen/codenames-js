@@ -95,12 +95,26 @@ function getSeed() {
   return params.get("gameID") || default_seed;
 }
 
+function updateRemainingIndicators() {
+  var countBlue = document.querySelectorAll(".blueword").length;
+  var countRed = document.querySelectorAll(".redword").length;
+  var countBlueSelected = document.querySelectorAll(".blueword.activated").length;
+  var countRedSelected = document.querySelectorAll(".redword.activated").length;
+
+  var target = document.getElementById("blueRemaining");
+  target.innerHTML = (countBlue - countBlueSelected).toString();
+
+  target = document.getElementById("redRemaining");
+  target.innerHTML = (countRed - countRedSelected).toString();
+}
+
 function clickActivates(node) {
   node.addEventListener("click", function(evt) {
     evt.stopPropagation();
 
     if (window.confirm("Are you sure you want to select " + node.innerHTML + "?")) {
       node.classList.add("activated");
+      updateRemainingIndicators()
     }
   });
 }
@@ -152,6 +166,15 @@ function renderGameLink(gameID) {
   target.appendChild(document.createTextNode(href));
 }
 
+function renderFirstPlayerIndicator(firstPlayer) {
+  var target = document.getElementById("firstPlayerIndicator");
+  if (firstPlayer == "red") {
+    target.innerHTML = 'The first player is red! <span class="dot red-dot"></span>';
+  } else {
+    target.innerHTML = 'The first player is blue! <span class="dot blue-dot"></span>';
+  }
+}
+
 
 document.addEventListener('DOMContentLoaded', function() {
   var seed = getSeed();
@@ -164,7 +187,10 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById("spymasterButton").addEventListener("click", function(evt) {
     evt.stopPropagation();
     document.querySelectorAll(".gameword").forEach(function(elem) {
-      elem.classList.add("activated");
+      elem.classList.add("spymaster");
     });
   });
+
+  renderFirstPlayerIndicator(firstPlayer);
+  updateRemainingIndicators();
 });
