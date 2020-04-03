@@ -22,8 +22,20 @@ td {
   padding: 20px 10px;
   border: 2px dashed #3c3836;
 }
+button {
+  background-color: #bdae93;
+  border: none;
+  box-shadow: 1px 1px 5px #a89984;
+  border-radius: 10px;
+  color: #3c3836;
+  font-weight: 600;
+  padding: 10px 20px;
+  margin: 5px;
+  font-size: 14px;
+}
 
-#spymasterDetails { display: inline-block; }
+#spymasterDetails { margin: 10px; }
+
 #firstPlayerIndicator {
   display: inline-block;
   padding: 0.5em;

@@ -12,15 +12,75 @@
     <div id="firstPlayerIndicator"></div>
     <div class="remaining-indicator blue-indicator">Blue words remaining: <div id="blueRemaining"></div></div>
     <div class="remaining-indicator red-indicator">Red words remaining: <div id="redRemaining"></div></div>
-    <details id="spymasterDetails"><summary>Become Spymaster</summary>
-      <button id="spymasterButton">Set Spymaster to True</button>
-    </details>
   </header>
   <hr/>
   <div id="wordList"></div>
   <hr/>
   <p><a id="gameLink">Share this link to join the same game!</a></p>
   <p><pre id="gameLinkRaw"></pre></p>
-  <button id="newGameButton">Start a new Game (get a new gameID)</button>
+  <div class="grouped-selectors">
+    <button id="setGameIDButton">Set gameID</button>
+    <button id="newGameButton">Start a new Game (get a new gameID)</button>
+    <details id="spymasterDetails"><summary>Become Spymaster</summary>
+      <button id="spymasterButton">Set Spymaster to True</button>
+    </details>
+  </div>
+
+  <hr/>
+
+  <h1>Instructions</h1>
+  <h2>Overview</h2>
+  <div class="content-section">
+    <p>
+    This page lets you play Codenames during the COVID-19 global pandemic.
+    Here's how it works...
+    </p>
+    <ol>
+        <li>Get everyone in your group online using your video chat service of choice</li>
+        <li>Every participant opens this page in a browser (I recommend using a separate device from the video chat for ease)</li>
+        <li>Synchronize your gameIDs -- you can share a link or use the "Set gameID"</li>
+        <li>Confirm that everyone is looking at the same board</li>
+        <li>Play!</li>
+    </ol>
+  </div>
+
+  <h2>Selecting Spymasters</h2>
+  <div class="content-section">
+    <p>
+    The Spymasters (clue-givers) will see all of the words with team colors.
+    Try out the "Become Spymaster" option before playing to see how it works.
+    Your Spymasters should therefore either be in the same place, sharing a
+    screen, or be the only ones using their devices. (The page works on phones too!)
+    </p>
+  </div>
+
+  <h2>Selecting Words</h2>
+  <div class="content-section">
+    <p>To guess a word as the player, just click on it.</p>
+
+    <p>
+    When a team is guessing a word, it's important that <strong>everyone</strong>
+    (spymasters included) clicks on the word. This will ask for confirmation, and
+    then mark the word as selected.
+    All players need to see which words have been guessed already, as do
+    spymasters. So everyone needs to click on the same words.
+    </p>
+
+    <p>Recommendation: say to everyone playing "we're clicking on &lt;SPAM&gt;"
+    so that everyone is 100% clear on word selections.</p>
+  </div>
+
+  <h2>Cheating, Collusion, and Skullduggery</h2>
+  <div class="content-section">
+    <p>CodenamesJS shares all of the information about the board with all
+    players, and doesn't coordinate amongst players.
+    Therefore, it is extremely easy to cheat.</p>
+
+    <p>Here are some good recommendations for handling players who you believe may
+    be cheating:</p>
+
+    <ol><li>Don't play with those people</li></ol>
+  </div>
+
 </body>
 </html>

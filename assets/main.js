@@ -209,6 +209,14 @@ document.addEventListener('DOMContentLoaded', function() {
     evt.stopPropagation();
     renderAll(newSeed());
   });
+  // setup Set Game ID Button
+  document.getElementById("setGameIDButton").addEventListener("click", function(evt) {
+    evt.stopPropagation();
+    var answer = Number(window.prompt("Enter a gameID:"));
+    if (answer != 0 && answer != null && !isNaN(answer)) {
+      renderAll(answer);
+    }
+  });
   // setup popstate handler
   window.onpopstate = function(evt) {
     renderAll(evt.state.gameID);
